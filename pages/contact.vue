@@ -17,8 +17,9 @@
       },
       methods: {
         loadSchool() {
+          const lang = localStorage.getItem("lang") ?? 'fr';
           this.loading = true
-          this.$axios.get('/api/school?lang=fr').then(res => {
+          this.$axios.get('/api/school?lang=' + lang).then(res => {
             this.loading = false
             this.school = res.data.school
             this.websites = res.data.websites
@@ -29,6 +30,11 @@
       },
       created () {
         this.loadSchool()
+      },
+      head () {
+        return {
+          title: "Contact - "
+        }
       },
     }
 </script>

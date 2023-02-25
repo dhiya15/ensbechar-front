@@ -2,9 +2,10 @@
   <div class="mt-6">
     <div v-if="!loading">
       <EventsCarousel :posts="cms.posts" :ads="cms.ads"/>
+      <Services :services="cms.services"/>
       <SchoolInNumbers :numbers="cms.school_in_numbers"/>
       <Specialities :specialities="cms.specialities"/>
-      <Departments :departments="cms.departments"/>
+      <Departments :departments="cms.departments" id="departments"/>
       <News :news="cms.news" :topics="cms.topics"/>
 
 
@@ -16,11 +17,13 @@
     </div>
 
     <div v-else>
-      <v-progress-circular
-        :size="50"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+      <v-col style="height: 250px" align-self="center" align="center" class="text-center justify-center">
+        <v-progress-circular
+          :size="50"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+      </v-col>
     </div>
 
 
@@ -34,18 +37,24 @@ import Contact from "../components/ContactPage";
 import Specialities from "../components/Specialities";
 import Departments from "../components/Departments";
 import News from "../components/News";
+import Services from "../components/Services";
 export default {
   name: 'IndexPage',
   scrollToTop: true,
   props: {
     data: Array
   },
-  components: {News, Departments, Specialities, Contact, SchoolInNumbers, EventsCarousel},
+  components: {Services, News, Departments, Specialities, Contact, SchoolInNumbers, EventsCarousel},
   data () {
     return {
       showBtn: false,
       loading: false,
       cms: {}
+    }
+  },
+  head () {
+    return {
+      title: ""
     }
   },
   methods: {
@@ -64,7 +73,8 @@ export default {
     },
     loadCMS() {
       this.loading = true
-      this.$axios.get('/api/cms?lang=fr').then(res => {
+      const lang = localStorage.getItem("lang") ?? 'fr';
+      this.$axios.get('/api/cms?lang=' + lang).then(res => {
         this.loading = false
         this.cms = res.data
       }).catch(err => {

@@ -1,12 +1,15 @@
 import colors from 'vuetify/es5/util/colors'
 //set NODE_OPTIONS=--openssl-legacy-provider
 export default {
+  router: {
+    base: '/'
+  },
   ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - ensbechar',
-    title: 'ensbechar',
+    titleTemplate: '%sENS Bechar',
+    title: '',
     htmlAttrs: {
       lang: 'fr'
     },
@@ -17,8 +20,10 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap'},
+      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400&display=swap'},
+      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Amiri:ital@1&display=swap'},
     ]
   },
 
@@ -50,9 +55,10 @@ export default {
       dark: false,
       themes: {
         light: {
-          primary: '#4CD3AA',
-          accent: '#081828',
-          secondary: '#255461',
+          primary: '#FE5800',
+          accent: '#808080',
+          secondary: '#676767',
+          icons: '#F2921D',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
@@ -70,12 +76,13 @@ export default {
   axios: {
     prefix: '/api/',
     proxy: true,
-    browserBaseURL: "https://site.ens-bechar.dz/ensbechar/public",
+    browserBaseURL: "https://www.ens-bechar.dz/Panel/index.php",
+    //browserBaseURL: "http://localhost:8000",
     credentials: false
   },
   loading: {
     color: '#4CD3AA',
     height: '4px'
-  }
+  },
 
 }

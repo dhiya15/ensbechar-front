@@ -1,36 +1,39 @@
 <template>
   <div class="mt-2">
     <v-toolbar class="hidden-md-and-down" height="70">
-      <img alt="" src="../static/logo.png">
+      <img alt=""
+           :src="'https://www.ens-bechar.dz/Panel/ensbechar/storage/app/public/' + school.logo"
+           style="height: 60px; width: auto"
+      >
 
       <v-spacer></v-spacer>
 
       <v-list-item block text link to="/">
-        {{fr_dict.home}}
+        {{dict.home}}
       </v-list-item>
 
       <v-list-item text link to="/school">
-        {{fr_dict.school}}
+        {{dict.school}}
       </v-list-item>
 
       <v-list-item text link to="/directions">
-        {{fr_dict.directions}}
+        {{dict.directions}}
       </v-list-item>
 
-      <v-list-item text link to="/departments">
-        {{fr_dict.departments}}
+      <v-list-item text link to="/#departments">
+        {{dict.departments}}
       </v-list-item>
 
       <v-list-item text link to="/e_leaning">
-        {{fr_dict.e_leaning}}
+        {{dict.e_leaning}}
       </v-list-item>
 
       <v-list-item text link to="/library">
-        {{fr_dict.library}}
+        {{dict.library}}
       </v-list-item>
 
       <v-list-item text link to="/contact">
-        {{fr_dict.contact}}
+        {{dict.contact}}
       </v-list-item>
 
       <v-spacer></v-spacer>
@@ -82,31 +85,31 @@
         </template>
         <v-list class="pl-2 pr-2">
           <v-list-item block text link to="/">
-            {{fr_dict.home}}
+            {{dict.home}}
           </v-list-item>
 
           <v-list-item text link to="/school">
-            {{fr_dict.school}}
+            {{dict.school}}
           </v-list-item>
 
           <v-list-item text link to="/directions">
-            {{fr_dict.directions}}
+            {{dict.directions}}
           </v-list-item>
 
           <v-list-item text link to="/departments">
-            {{fr_dict.departments}}
+            {{dict.departments}}
           </v-list-item>
 
           <v-list-item text link to="/e_leaning">
-            {{fr_dict.e_leaning}}
+            {{dict.e_leaning}}
           </v-list-item>
 
           <v-list-item text link to="/library">
-            {{fr_dict.library}}
+            {{dict.library}}
           </v-list-item>
 
           <v-list-item text link to="/contact">
-            {{fr_dict.contact}}
+            {{dict.contact}}
           </v-list-item>
         </v-list>
       </v-menu>
@@ -124,28 +127,82 @@
 <script>
     export default {
       name: "NavBar",
+      props: {
+        school: Object
+      },
       data () {
         return {
           langs: [
-            {lang: "Fr", icon: "mdi-eiffel-tower"},
-            {lang: "Ar", icon: "mdi-abjad-arabic"}
+            {lang: "Fr", icon: "", key: "fr"},
+            {lang: "En", icon: "", key: "en"},
+            {lang: "Ar", icon: "", key: "ar"}
           ],
-          current_lang: {lang: "Fr", icon: "mdi-eiffel-tower"},
+          current_lang: {lang: "Fr", icon: "", key: "fr"},
+
+
+          dict: {},
           fr_dict: {
             home: "Accueil",
-            school: "L'ecole",
+            school: "L'école",
             directions: "Directions",
             departments: "Départements",
             library: "Bibliothèque",
             e_leaning: "E-Learning",
             contact: "Contact",
           },
+          en_dict: {
+            home: "Home",
+            school: "School",
+            directions: "Directions",
+            departments: "Déparments",
+            library: "Library",
+            e_leaning: "E-Learning",
+            contact: "Contact",
+          },
+          ar_dict: {
+            home: "الرئيسية",
+            school: "المدرسة",
+            directions: "المديريات",
+            departments: "الاقسام",
+            library: "المكتبة",
+            e_leaning: "التعليم عن بعد",
+            contact: "اتصل بنا",
+          },
+
+
+
+
         }
       },
       methods: {
         setCurrentLang(index) {
           this.current_lang = this.langs[index]
+          localStorage.setItem("lang", this.langs[index].key)
+          location.reload();
         },
+        getCurrentLang() {
+          const lang = localStorage.getItem("lang") ?? "fr"
+          switch (lang) {
+            case "fr":
+              this.current_lang = this.langs[0]
+              this.dict = this.fr_dict;
+              this.$vuetify.rtl = false
+              break;
+            case "en":
+              this.current_lang = this.langs[1]
+              this.dict = this.en_dict;
+              this.$vuetify.rtl = false
+              break;
+            case "ar":
+              this.current_lang = this.langs[2]
+              this.dict = this.ar_dict;
+              this.$vuetify.rtl = true
+              break;
+          }
+        }
+      },
+      created() {
+        this.getCurrentLang()
       }
     }
 </script>

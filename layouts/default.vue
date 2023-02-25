@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <InfoBar :school="school"/>
-      <NavBar/>
+      <NavBar :school="school"/>
       <Nuxt/>
       <Footer :school="school" :websites="websites"/>
     </v-main>
@@ -26,7 +26,8 @@ export default {
   methods: {
     loadSchool() {
       this.loading = true
-      this.$axios.get('/api/school?lang=fr').then(res => {
+      const lang = localStorage.getItem("lang") ?? 'fr';
+      this.$axios.get('/api/school?lang=' + lang).then(res => {
         this.loading = false
         this.school = res.data.school
         this.websites = res.data.websites

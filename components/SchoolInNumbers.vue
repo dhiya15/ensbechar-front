@@ -1,6 +1,6 @@
 <template>
     <div class="counts mt-5">
-      <h1 class="text-center pl-1 pr-1">{{fr_dict.school_numbers}}</h1>
+      <h1 class="text-center pl-1 pr-1">{{dict.school_numbers}}</h1>
       <v-row class="mt-3">
         <v-col cols="12" md="3" sm="6" class="text-center" v-for="(item, i) in numbers" :key="i">
           <v-icon size="32">{{item.icon}}</v-icon>
@@ -23,12 +23,41 @@
     },
     data() {
       return {
+        dict: {},
         fr_dict: {
-          school_numbers: "L'école avec chiffres"
+          school_numbers: "L'école en chiffres"
+        },
+        en_dict: {
+          school_numbers: "School in numbers"
+        },
+        ar_dict: {
+          school_numbers: "المدرسة بالارقام"
         },
       };
     },
+    methods: {
+      getCurrentLang() {
+        const lang = localStorage.getItem("lang") ?? "fr"
+        switch (lang) {
+          case "fr":
+            this.dict = this.fr_dict;
+            this.$vuetify.rtl = false
+            break;
+          case "en":
+            this.dict = this.en_dict;
+            this.$vuetify.rtl = false
+            break;
+          case "ar":
+            this.dict = this.ar_dict;
+            this.$vuetify.rtl = true
+            break;
+        }
+      }
+    },
+    created() {
+      this.getCurrentLang()
     }
+  }
 </script>
 
 <style scoped>
